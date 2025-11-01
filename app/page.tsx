@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { CheckSquare, TrendingUp, Zap, BarChart3, AlertCircle, Eye, EyeOff, Download, Moon, Sun, Plus, Trash2, Loader } from 'lucide-react';
-import Modul0_MarketContext from './components/Modul0_MarketContext';
 
 function Card({ children, className = "", darkMode = true }: { children: React.ReactNode; className?: string; darkMode?: boolean }) {
   const baseClasses = darkMode 
@@ -115,7 +114,7 @@ export default function GeminiTradingApp() {
       macd_signal: (Math.random() - 0.5) * 0.01,
       ema_50: currentPrice * 0.99,
       current_price: currentPrice,
-      trend: currentPrice > (currentPrice * 0.99) ? "Bullish" as const : "Bearish" as const,
+      trend: currentPrice > (currentPrice * 0.99) ? ("Bullish" as const) : ("Bearish" as const),
       confluence: Math.floor(Math.random() * 4) + 1,
       volume: Math.floor(Math.random() * 5000000),
       volatility: Math.floor(Math.random() * 5) + 1
@@ -127,7 +126,7 @@ export default function GeminiTradingApp() {
       macd_signal: (Math.random() - 0.5) * 0.01,
       ema_50: currentPrice * 0.98,
       current_price: currentPrice,
-      trend: currentPrice > (currentPrice * 0.98) ? "Bullish" as const : "Bearish" as const,
+      trend: currentPrice > (currentPrice * 0.98) ? ("Bullish" as const) : ("Bearish" as const),
       confluence: Math.floor(Math.random() * 4) + 1,
       volume: Math.floor(Math.random() * 5000000),
       volatility: Math.floor(Math.random() * 5) + 1
@@ -139,7 +138,7 @@ export default function GeminiTradingApp() {
       macd_signal: (Math.random() - 0.5) * 0.01,
       ema_50: currentPrice * 0.97,
       current_price: currentPrice,
-      trend: currentPrice > (currentPrice * 0.97) ? "Bullish" as const : "Bearish" as const,
+      trend: currentPrice > (currentPrice * 0.97) ? ("Bullish" as const) : ("Bearish" as const),
       confluence: Math.floor(Math.random() * 4) + 1,
       volume: Math.floor(Math.random() * 5000000),
       volatility: Math.floor(Math.random() * 5) + 1
@@ -231,10 +230,13 @@ export default function GeminiTradingApp() {
           </button>
         </div>
 
-        {/* Modul 0 */}
-        <Modul0_MarketContext />
+        {/* Market Context */}
+        <Card darkMode={darkMode} className={`${darkMode ? 'border-blue-500/30 bg-blue-500/10' : 'border-blue-200 bg-blue-50'}`}>
+          <h2 className={`text-lg font-semibold mb-2 ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>📊 Market Context</h2>
+          <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Multi-timeframe analysis with live crypto data from CoinGecko</p>
+        </Card>
 
-        {/* Modul 1 */}
+        {/* Asset Selection */}
         <Card darkMode={darkMode}>
           <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-black'}`}>
             <CheckSquare className="h-5 w-5 text-blue-500" /> Asset Selection
@@ -264,7 +266,7 @@ export default function GeminiTradingApp() {
           </div>
         </Card>
 
-        {/* Modul 2 */}
+        {/* Multi-Timeframe Analysis */}
         <Card darkMode={darkMode} className="space-y-6">
           <h2 className={`text-lg font-semibold flex items-center gap-2 ${darkMode ? 'text-white' : 'text-black'}`}>
             <TrendingUp className="h-5 w-5 text-blue-500" /> Multi-Timeframe Analysis
@@ -302,31 +304,14 @@ export default function GeminiTradingApp() {
                         style={{ width: `${tf.rsi_14}%` }}
                       />
                     </div>
-                    <span className={`text-xs mt-2 block ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-                      {tf.rsi_14 > 70 ? '⚠️ Overbought' : tf.rsi_14 < 30 ? '✓ Oversold' : '• Normal'}
-                    </span>
                   </div>
 
                   <div className={`mb-3 p-3 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-black/5'}`}>
                     <span className={`text-xs font-medium block mb-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>MACD</span>
-                    <div className="space-y-1">
-                      <div className="flex justify-between">
-                        <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Value:</span>
-                        <span className={`text-xs font-semibold ${tf.macd_value > tf.macd_signal ? (darkMode ? 'text-green-400' : 'text-green-600') : (darkMode ? 'text-red-400' : 'text-red-600')}`}>
-                          {tf.macd_value > tf.macd_signal ? '↗️' : '↘️'} {tf.macd_value.toFixed(4)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={`mb-3 p-3 rounded-lg ${darkMode ? 'bg-white/5' : 'bg-black/5'}`}>
-                    <span className={`text-xs font-medium block mb-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Price vs EMA50</span>
-                    <div className="flex justify-between items-center">
-                      <span className={`text-xs font-semibold ${tf.current_price > tf.ema_50 ? (darkMode ? 'text-green-400' : 'text-green-600') : (darkMode ? 'text-red-400' : 'text-red-600')}`}>
-                        {tf.current_price > tf.ema_50 ? '↗️ Above' : '↘️ Below'}
-                      </span>
-                      <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                        {Math.abs((tf.current_price - tf.ema_50) / tf.ema_50 * 100).toFixed(2)}%
+                    <div className="flex justify-between">
+                      <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Value:</span>
+                      <span className={`text-xs font-semibold ${tf.macd_value > tf.macd_signal ? (darkMode ? 'text-green-400' : 'text-green-600') : (darkMode ? 'text-red-400' : 'text-red-600')}`}>
+                        {tf.macd_value > tf.macd_signal ? '↗️' : '↘️'} {tf.macd_value.toFixed(4)}
                       </span>
                     </div>
                   </div>
@@ -343,69 +328,28 @@ export default function GeminiTradingApp() {
                       />
                     </div>
                   </div>
-
-                  {showMetrics && (
-                    <div className={`grid grid-cols-2 gap-2 p-3 rounded-lg mt-3 ${darkMode ? 'bg-white/5' : 'bg-black/5'}`}>
-                      <div>
-                        <span className={`text-xs ${darkMode ? 'text-gray-500' : 'text-gray-600'}`}>Volume</span>
-                        <span className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-800'}`}>{(tf.volume / 1000000).toFixed(2)}M</span>
-                      </div>
-                      <div>
-                        <span className={`text-xs ${darkMode ? 'text-gray-500' : 'text-gray-600'}`}>Volatility</span>
-                        <span className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-800'}`}>{tf.volatility}%</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
           )}
         </Card>
 
-        {/* Modul 3 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card darkMode={darkMode} className={`${signal.color} border transition-all`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Zap className="h-8 w-8 text-yellow-500" />
-                <div>
-                  <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Trading Signal</p>
-                  <p className={`text-2xl font-bold ${signal.textColor}`}>{signal.signal}</p>
-                </div>
-              </div>
-              <div className={`text-right text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <p>{asset}</p>
-                <p className="mt-1">Confidence: {signal.avgConfluence}/4</p>
+        {/* Trading Signal */}
+        <Card darkMode={darkMode} className={`${signal.color} border transition-all`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Zap className="h-8 w-8 text-yellow-500" />
+              <div>
+                <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Trading Signal</p>
+                <p className={`text-2xl font-bold ${signal.textColor}`}>{signal.signal}</p>
               </div>
             </div>
-          </Card>
-
-          {showMetrics && (
-            <Card darkMode={darkMode} className={darkMode ? 'border-blue-500/30 bg-blue-500/10' : 'border-blue-200 bg-blue-50'}>
-              <h3 className={`text-sm font-semibold flex items-center gap-2 ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
-                <BarChart3 className="h-4 w-4" /> Metrics
-              </h3>
-              <div className={`space-y-2 text-xs mt-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                <div className="flex justify-between">
-                  <span className={darkMode ? 'text-gray-500' : 'text-gray-600'}>Bullish TFs:</span>
-                  <span className={darkMode ? 'text-green-400' : 'text-green-600'}>{signal.bullishCount} / 3</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className={darkMode ? 'text-gray-500' : 'text-gray-600'}>Bearish TFs:</span>
-                  <span className={darkMode ? 'text-red-400' : 'text-red-600'}>{signal.bearishCount} / 3</span>
-                </div>
-                <div className={`flex justify-between ${darkMode ? 'border-t border-blue-500/30 pt-2' : 'border-t border-blue-200 pt-2'}`}>
-                  <span className={darkMode ? 'text-gray-500' : 'text-gray-600'}>Avg. Volatility:</span>
-                  <span className={darkMode ? 'text-yellow-400' : 'text-yellow-600'}>{signal.avgVolatility}%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className={darkMode ? 'text-gray-500' : 'text-gray-600'}>Risk/Reward:</span>
-                  <span className={darkMode ? 'text-blue-400' : 'text-blue-600'}>{signal.riskReward}</span>
-                </div>
-              </div>
-            </Card>
-          )}
-        </div>
+            <div className={`text-right text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p>{asset}</p>
+              <p className="mt-1">Confidence: {signal.avgConfluence}/4</p>
+            </div>
+          </div>
+        </Card>
 
         {/* Trade History */}
         {tradeLogs.length > 0 && (
