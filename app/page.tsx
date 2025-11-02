@@ -52,7 +52,7 @@ type TradeLog = {
   macd: number;
 };
 
-const GeminiTradingApp: React.FC = () => {
+const CryptoTrader: React.FC = () => {
   const [prices, setPrices] = useState<Record<string, any>>({});
   const [tradeLog, setTradeLog] = useState<TradeLog[]>([]);
   const [dark, setDark] = useState(true);
@@ -107,7 +107,7 @@ const GeminiTradingApp: React.FC = () => {
         ]);
       });
     } catch (error) {
-      console.error('Fehler beim Laden der Daten:', error);
+      console.error('Fehler beim Laden:', error);
     }
   };
 
@@ -133,7 +133,7 @@ const GeminiTradingApp: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'trading_history.csv';
+    a.download = 'crypto_trades.csv';
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -147,8 +147,8 @@ const GeminiTradingApp: React.FC = () => {
           backgroundColor: dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)'
         }}>
           <div>
-            <h1 className="text-4xl font-bold">🚀 Gemini Trading App</h1>
-            <p className="text-sm opacity-60 mt-1">Crypto Trading Dashboard mit Echtzeit-Analyse | Powered by CoinGecko</p>
+            <h1 className="text-4xl font-bold">💹 CryptoTrader</h1>
+            <p className="text-sm opacity-60 mt-1">Live Crypto Analysis | Real-time Trading Signals | CoinGecko API</p>
           </div>
           <button
             onClick={() => setDark(!dark)}
@@ -243,7 +243,7 @@ const GeminiTradingApp: React.FC = () => {
                 ) : (
                   <tr>
                     <td colSpan={6} className="text-center py-4 opacity-50">
-                      {loading ? 'Daten laden...' : 'Keine Trades noch'}
+                      {loading ? 'Daten laden...' : 'Keine Trades'}
                     </td>
                   </tr>
                 )}
@@ -254,11 +254,11 @@ const GeminiTradingApp: React.FC = () => {
 
         {/* Footer */}
         <div className="mt-8 text-center text-xs opacity-50">
-          <p>Gemini Trading App © 2025 | Real-time Crypto Data | CoinGecko API | Alle 30 Sekunden aktualisiert</p>
+          <p>CryptoTrader © 2025 | Real-time Data | CoinGecko API | Updated every 30 seconds</p>
         </div>
       </div>
     </main>
   );
 };
 
-export default GeminiTradingApp;
+export default CryptoTrader;
